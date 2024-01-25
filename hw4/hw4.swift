@@ -1,88 +1,63 @@
-import Foundation
-
-
-//Создать перечисление с видами пиццы (хотя бы 4-5 кейсов).
+//Урок 4. Классы и структуры
+//Создать перечисление с видами пиццы (хотя бы 4 - 5 кейсов)
 //Создать структуру пиццы, она должна содержать стоимость, вид пиццы, толстое или тонкое тесто и добавки (например, дополнительно добавить пепперони, помидоры, сыр). Вид пиццы должен быть вложенным типом для структуры пиццы. Подсказка: добавки лучше также сделать перечислением.
 //Создать класс пиццерии, добавить массив с возможными пиццами. Переменная с массивом должна быть приватной. Массив задается в инициализаторе.
 //Написать в классе пиццерии функции для добавления новой пиццы и для получения всех доступных пицц.
 //Создать экземпляр класса пиццерии и добавить в него несколько пицц.
 
 
+
+// Перечисление с видами пиццы
+enum PizzaType {
+    case margherita
+    case pepperoni
+    case hawaiian
+    case vegetarian
+    case bbqChicken
+}
+
+// Структура пиццы
 struct Pizza {
-    enum TypesOfPizza {
-        case calzone
-        case napoletana
-        case romana
-        case siciliana
-        case fritta
-        case gourmet
-    }
-    
-    enum Additives {
-        case pepperoni
-        case tomato
-        case cheese
-    }
-    
-    enum Dough {
-        case thick
-        case thin
-    }
-    
-    var cost: Int
-    var typesPizza: TypesOfPizza
-    var additives: Additives
-    var dough: Dough
+    let name: String
+    let price: Double
+    let crustType: String
+    let toppings: [String]
 }
 
-
-
+// Класс пиццерии
 class Pizzeria {
-    private var pizzaArray: [Pizza]
+    private var pizzas: [Pizza] = []
     
-    
-    init (pizzaArray: [Pizza]) {
-        self.pizzaArray = pizzaArray
+    // Функция для добавления новой пиццы
+    func addPizza(name: String, price: Double, crustType: String, toppings: [String]) {
+        let pizza = Pizza(name: name, price: price, crustType: crustType, toppings: toppings)
+        pizzas.append(pizza)
     }
     
-    init() {
-        self.pizzaArray = []
-    }
-    
-    
-    
-    
-    func addPizza(typesOfPizza: Pizza.TypesOfPizza,
-                  additives: Pizza.Additives,
-                  dough: Pizza.Dough,
-                  cost: Int){
-        
-        var p = Pizza(cost: cost, typesPizza: typesOfPizza, additives: additives, dough: dough)
-        self.pizzaArray.append(p)
-    }
-    
-    
-    func availableForPurchase() {
-        print("В наличии имеются следующие виды пиццы:")
-        for i in pizzaArray {
-            print(i.typesPizza)
-        }
-        
+    // Функция для получения всех доступных пицц
+    func getAllPizzas() -> [Pizza] {
+        return pizzas
     }
 }
 
+// Создание экземпляра класса пиццерии
+let pizzeria = Pizzeria()
 
-//var arrrr = [Pizza]()
-//var cafe1 = Pizzeria(pizzaArray: arrrr)
+// Добавление пицц в пиццерию
+pizzeria.addPizza(name: "Маргарита", price: 9.99, crustType: "тонкое", toppings: ["сыр", "помидоры", "базилик"])
+pizzeria.addPizza(name: "Пепперони", price: 11.99, crustType: "толстое", toppings: ["сыр", "пепперони", "лук"])
+pizzeria.addPizza(name: "Гавайская", price: 10.99, crustType: "тонкое", toppings: ["сыр", "ветчина", "ананасы"])
+pizzeria.addPizza(name: "Вегетарианская", price: 12.99, crustType: "толстое", toppings: ["сыр", "шпинат", "помидоры", "грибы"])
 
-var cafe1 = Pizzeria(pizzaArray: [])
-var cafe2 = Pizzeria()
+// Получение всех доступных пицц
+let allPizzas = pizzeria.getAllPizzas()
 
+// Вывод информации о доступных пиццах
+for pizza in allPizzas {
+    print("Название: \(pizza.name)")
+    print("Цена: $\(pizza.price)")
+    print("Толщина теста: \(pizza.crustType)")
+    print("Добавки: \(pizza.toppings.joined(separator: ", "))")
+    print("----------")
+}
 
-
-
-
-cafe1.addPizza(typesOfPizza: .fritta, additives: .pepperoni, dough: .thin, cost: 120)
-cafe1.addPizza(typesOfPizza: .napoletana, additives: .cheese, dough: .thick, cost: 130)
-cafe1.addPizza(typesOfPizza: .siciliana, additives: .tomato, dough: .thick, cost: 100)
-cafe1.availableForPurchase()
