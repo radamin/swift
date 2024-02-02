@@ -4,7 +4,7 @@
 //Должностей пока может быть две: или кассир, или повар.
 //Добавить в класс пиццерии массив с работниками
 
-//1) Создание структуры работника пиццерии:
+//Создание структуры работника пиццерии
 
 struct Employee {
     var name: String
@@ -17,8 +17,8 @@ struct Employee {
     }
 }
 
-//2) Добавление массива с работниками в класс пиццерии:
-
+// Добавление массива с работниками в класс пиццерии
+// Класс пиццерии будет присутствовать в 1 и 3 заданиях
 class PizzaRestaurant {
     var employees: [Employee]
 
@@ -28,15 +28,14 @@ class PizzaRestaurant {
 }
 
 //2. Создать класс столика, в нем должны быть свойство,
-//в котором содержится количество мест и функция,
-//которая на вход принимает количество гостей, которое хотят
-//посадить, а возвращает true, если места хватает и false,
-//если места не хватает. Изначальное количество мест задается
-//в инициализаторе
+//в котором содержится количество мест и функция, которая на вход 
+//принимает количество гостей, которое хотят //посадить, 
+//а возвращает true, если места хватает и false, //если места не хватает. 
+//Изначальное количество мест задается в инициализаторе
 
 class Table {
     let numberOfSeats: Int
-    var pizzaRestaurant: PizzaRestaurant?
+    weak var pizzaRestaurant: PizzaRestaurant?
 
     init(numberOfSeats: Int) {
         self.numberOfSeats = numberOfSeats
@@ -46,6 +45,7 @@ class Table {
         return numberOfGuests <= numberOfSeats
     }
 }
+
 
 //3. Добавить в класс пиццерии свойство, в котором хранится
 //массив столиков. У класса столика добавить свойство,
@@ -57,12 +57,27 @@ class PizzaRestaurant {
     var employees: [Employee]
     var tables: [Table]
 
-    init(employees: [Employee], tables: [Table]) {
+    init(employees: [Employee]) {
         self.employees = employees
-        self.tables = tables
+        self.tables = []
+        createTables()
+    }
 
-        for table in tables {
-            table.pizzaRestaurant = self
-        }
+    func createTables() {
+        let table1 = Table(numberOfSeats: 4)
+        let table2 = Table(numberOfSeats: 6)
+
+        table1.pizzaRestaurant = self
+        table2.pizzaRestaurant = self
+
+        tables.append(table1)
+        tables.append(table2)
     }
 }
+
+// Создание экземпляров работников пиццерии
+let cashier = Employee(name: "John", salary: 12.50, position: .cashier)
+let cook = Employee(name: "Jane", salary: 15.75, position: .cook)
+
+// Создание экземпляра пиццерии с работниками
+let pizzeria = PizzaRestaurant(employees: [cashier, cook])
