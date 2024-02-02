@@ -35,12 +35,12 @@ class PizzaRestaurant {
 
 class Table {
     let numberOfSeats: Int
-    weak var pizzaRestaurant: PizzaRestaurant?
-
+    var pizzaRestaurant: PizzaRestaurant?
+    
     init(numberOfSeats: Int) {
         self.numberOfSeats = numberOfSeats
     }
-
+    
     func canAccommodateGuests(_ numberOfGuests: Int) -> Bool {
         return numberOfGuests <= numberOfSeats
     }
@@ -75,9 +75,18 @@ class PizzaRestaurant {
     }
 }
 
+class Table {
+    weak var pizzaRestaurant: PizzaRestaurant?
+
+    init(numberOfSeats: Int) {
+        // Код инициализации столика
+    }
+}
+
 // Создание экземпляров работников пиццерии
 let cashier = Employee(name: "John", salary: 12.50, position: .cashier)
 let cook = Employee(name: "Jane", salary: 15.75, position: .cook)
 
-// Создание экземпляра пиццерии с работниками
-let pizzeria = PizzaRestaurant(employees: [cashier, cook])
+//У свойства pizzaRestaurant в классе Table используется опциональный тип weak var, 
+//чтобы предотвратить создание циклической ссылки между пиццерией и столиком.
+//Это позволяет избежать утечек памяти и позволяет объектам быть освобожденными, когда они больше не нужны.
